@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.22
 
-    Version : 20250625.0
+    Version : 20250626.0
 
     Rubik cube simulation engine
 
@@ -18,7 +18,7 @@
 #ifndef CUBEGENERAL_H
 #define CUBEGENERAL_H
 
-enum to : uint8_t
+enum to
 {
     up,
     down,
@@ -28,7 +28,7 @@ enum to : uint8_t
     anticlockwise
 };
 
-enum position : uint8_t
+enum position
 {
     Left,
     Top,

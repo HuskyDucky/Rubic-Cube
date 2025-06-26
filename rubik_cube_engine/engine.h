@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.22
 
-    Version : 20250625.0
+    Version : 20250626.0
 
     Rubik cube simulation engine
 
@@ -37,9 +37,10 @@ struct rubik_engine
                                              // (ex.: for cube(3) xyz must be >= 0 and < 3)
     void recreate(uint16_t Cube_Size);       // Cube_Size must be > 2
 
+    uint16_t size();
+
     protected:
 
-        uint16_t size();
         color block(uint16_t line, uint16_t column, uint16_t layer);
 
     private:

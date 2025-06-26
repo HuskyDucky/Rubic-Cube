@@ -1,0 +1,167 @@
+# depslib dependency file v1.0
+1750868329 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/main.cpp
+	"lib/getch.h"
+	"rubik_cube/rubik.h"
+
+1750772701 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/class_cube/cube.cpp
+	"cube.h"
+
+1750772844 /home/menashe/Projects/C++_Projects/Rubik/Rubik/class_cube/cube.h
+	<cinttypes>
+	<vector>
+	<iostream>
+	<iomanip>
+	"cube_class_color.h"
+	"cube_general.h"
+
+1750744518 /home/menashe/Projects/C++_Projects/Rubik/Rubik/class_cube/cube_color.h
+	<cinttypes>
+	<cube_general.h>
+
+1750609968 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/class_cube/cube_color.cpp
+	"cube_color.h"
+
+1750774069 /home/menashe/Projects/C++_Projects/Rubik/Rubik/class_cube/cube_general.h
+
+1750763428 /home/menashe/Projects/C++_Projects/Rubik/Rubik/class_cube/cube_class_color.h
+	<cinttypes>
+	"cube_general.h"
+
+1750773958 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/class_cube/cube_class_color.cpp
+	"cube_class_color.h"
+
+1750774595 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/class_cube/cube_spin.cpp
+	"cube.h"
+
+1750789261 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/lib/getch.cpp
+	"getch.h"
+
+1750789261 /home/menashe/Projects/C++_Projects/Rubik/Rubik/lib/getch.h
+	<cstdio>
+	<unistd.h>
+	<termios.h>
+
+1750775802 /home/menashe/Projects/C++_Projects/Rubik/Rubik/Rubik_Cube/Rubik.h
+	<cinttypes>
+	<vector>
+	<iostream>
+	<iomanip>
+	"Rubik_class_color.h"
+	"Rubik_general.h"
+
+1750775201 /home/menashe/Projects/C++_Projects/Rubik/Rubik/Rubik_Cube/Rubik_class_color.h
+	<cinttypes>
+	"Rubik_general.h"
+
+1750775201 /home/menashe/Projects/C++_Projects/Rubik/Rubik/Rubik_Cube/Rubik_general.h
+
+1750775949 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/Rubik_Cube/Rubik.cpp
+	"Rubik.h"
+
+1750775201 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/Rubik_Cube/Rubik_class_color.cpp
+	"Rubik_class_color.h"
+
+1750775883 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/Rubik_Cube/Rubik_spin.cpp
+	"Rubik.h"
+
+1750788783 /home/menashe/Projects/C++_Projects/Rubik/Rubik/Rubik_Cube/main.h
+	<cinttypes>
+	<vector>
+	<iostream>
+	<iomanip>
+	"./class_color.h"
+	"./general.h"
+
+1750788783 /home/menashe/Projects/C++_Projects/Rubik/Rubik/Rubik_Cube/class_color.h
+	<cinttypes>
+	"./general.h"
+
+1750788782 /home/menashe/Projects/C++_Projects/Rubik/Rubik/Rubik_Cube/general.h
+
+1750788819 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/Rubik_Cube/class_color.cpp
+	"./class_color.h"
+
+1750788819 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/Rubik_Cube/main.cpp
+	"./main.h"
+
+1750788819 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/Rubik_Cube/spin.cpp
+	"./main.h"
+
+1750843843 /home/menashe/Projects/C++_Projects/Rubik/Rubik/rubik_cube_engine/engine.h
+	<cinttypes>
+	<vector>
+	<iostream>
+	"general.h"
+	"class_color.h"
+
+1750877279 /home/menashe/Projects/C++_Projects/Rubik/Rubik/rubik_cube_engine/general.h
+
+1750878637 /home/menashe/Projects/C++_Projects/Rubik/Rubik/rubik_cube_engine/class_color.h
+	<cinttypes>
+	"general.h"
+
+1750878638 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/rubik_cube_engine/class_color.cpp
+	"class_color.h"
+
+1750875205 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/rubik_cube_engine/engine.cpp
+	"engine.h"
+
+1750879291 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/rubik_cube_engine/spin.cpp
+	"engine.h"
+
+1750847868 /home/menashe/Projects/C++_Projects/Rubik/Rubik/rubik_cube/rubik.h
+	<iostream>
+	<iomanip>
+	"../rubik_cube_engine/engine.h"
+
+1750883256 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/rubik_cube/rubik.cpp
+	"rubik.h"
+
+1750870125 source:/home/menashe/Projects/C++_Projects/Rubik/Rubik/rubik_cube_engine/protected.cpp
+	"engine.h"
+
+1750789261 source:/home/menashe/Projects/C++_Projects/Rubik/lib/getch.cpp
+	"getch.h"
+
+1750789261 /home/menashe/Projects/C++_Projects/Rubik/lib/getch.h
+	<cstdio>
+	<unistd.h>
+	<termios.h>
+
+1750957990 source:/home/menashe/Projects/C++_Projects/Rubik/main.cpp
+	"lib/getch.h"
+	"rubik_cube/rubik.h"
+
+1750959305 /home/menashe/Projects/C++_Projects/Rubik/rubik_cube/rubik.h
+	<iostream>
+	<iomanip>
+	"../rubik_cube_engine/engine.h"
+
+1750957797 /home/menashe/Projects/C++_Projects/Rubik/rubik_cube_engine/engine.h
+	<cinttypes>
+	<vector>
+	<iostream>
+	"general.h"
+	"class_color.h"
+
+1750956506 /home/menashe/Projects/C++_Projects/Rubik/rubik_cube_engine/general.h
+
+1750883426 /home/menashe/Projects/C++_Projects/Rubik/rubik_cube_engine/class_color.h
+	<cinttypes>
+	"general.h"
+
+1750959295 source:/home/menashe/Projects/C++_Projects/Rubik/rubik_cube/rubik.cpp
+	"rubik.h"
+
+1750878638 source:/home/menashe/Projects/C++_Projects/Rubik/rubik_cube_engine/class_color.cpp
+	"class_color.h"
+
+1750875205 source:/home/menashe/Projects/C++_Projects/Rubik/rubik_cube_engine/engine.cpp
+	"engine.h"
+
+1750870125 source:/home/menashe/Projects/C++_Projects/Rubik/rubik_cube_engine/protected.cpp
+	"engine.h"
+
+1750879291 source:/home/menashe/Projects/C++_Projects/Rubik/rubik_cube_engine/spin.cpp
+	"engine.h"
+

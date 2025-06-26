@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.25
 
-    Version : 20250625.0
+    Version : 20250626.0
 
     Extends functionalities for Rubik cube simulation
 
@@ -17,20 +17,34 @@
 **/
 #include "rubik.h"
 
-rubik::rubik() : rubik_engine() {};
-rubik::rubik(uint16_t cube_size) : rubik_engine(cube_size) {};
+rubik::rubik() : rubik_engine(), applyTermColor(colored_letters) {};
+rubik::rubik(uint16_t cube_size) : rubik_engine(cube_size), applyTermColor(colored_letters) {};
 
-const char* colorize (const char c = ' ')
+const char* rubik::colorize (const char c = ' ') const
 {
-    switch (c)
+    switch (applyTermColor)
     {
-        case 'W' : return "\x1B[97m"; break;
-        case 'Y' : return "\x1B[93m"; break;
-        case 'B' : return "\x1B[94m"; break;
-        case 'G' : return "\x1B[92m"; break;
-        case 'R' : return "\x1B[91m"; break;
-        case 'O' : return "\x1B[33m"; break;
-        default  : return "\033[0m";
+        case term_color::colored_letters:   switch (c) {
+                                                case 'W' : return "\x1B[97m"; break;
+                                                case 'Y' : return "\x1B[93m"; break;
+                                                case 'B' : return "\x1B[94m"; break;
+                                                case 'G' : return "\x1B[92m"; break;
+                                                case 'R' : return "\x1B[91m"; break;
+                                                case 'O' : return "\x1B[33m"; break;
+                                                default  : return "\033[0m";
+                                            }
+                                            break;
+        case term_color::colored_positions: switch (c) {
+                                                case 'W' : return "\033[3;107;97m"; break;
+                                                case 'Y' : return "\033[3;103;93m"; break;
+                                                case 'B' : return "\033[3;104;94m"; break;
+                                                case 'G' : return "\033[3;102;92m"; break;
+                                                case 'R' : return "\033[3;101;91m"; break;
+                                                case 'O' : return "\033[3;43;33m"; break;
+                                                default  : return "\033[0m";
+                                            }
+                                            break;
+        default : return "";
     }
 }
 

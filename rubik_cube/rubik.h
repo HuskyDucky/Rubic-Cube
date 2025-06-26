@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.25
 
-    Version : 20250625.0
+    Version : 20250626.0
 
     Extends functionalities for Rubik cube simulation
 
@@ -23,12 +23,24 @@
 
 #include "../rubik_cube_engine/engine.h"
 
+enum term_color
+{
+    black_white,
+    colored_letters,
+    colored_positions
+};
+
 struct rubik : public rubik_engine
 {
     rubik();
     rubik(uint16_t cube_size);
 
     void show();
+
+    term_color applyTermColor;  // default is colored_letters
+
+    private:
+        const char* colorize (const char c) const;
 };
 
 #endif // RUBIK_CUBE_H

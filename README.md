@@ -1,3 +1,3 @@
 # Rubic-Cube
 
-still underdevelopment and testing
+still under development and testing

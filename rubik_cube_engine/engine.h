@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.22
 
-    Version : 20250626.0
+    Version : 20250628.0
 
     Rubik cube simulation engine
 
@@ -19,7 +19,9 @@
 #define ENGINE_H
 
 #include <cinttypes>
+#include <cstring>
 #include <vector>
+#include <list>
 
 #include <iostream>
 
@@ -28,6 +30,12 @@
 
 using namespace std;
 
+struct history
+{
+    to direction;
+    uint16_t xyz;
+};
+
 struct rubik_engine
 {
     rubik_engine();
@@ -35,18 +43,20 @@ struct rubik_engine
 
     void spin(to direction, uint16_t xyz);   // xyz starts at 0 and the last value is the cube size -1.
                                              // (ex.: for cube(3) xyz must be >= 0 and < 3)
-    void recreate(uint16_t Cube_Size);       // Cube_Size must be > 2
 
-    uint16_t size();
+    uint16_t size() const;
+
+    const list<history>& get_Spin_history() const;
+
+    void reset();
+    void recreate(uint16_t Cube_Size);
 
     protected:
 
-        color block(uint16_t line, uint16_t column, uint16_t layer);
+        color block(uint16_t line, uint16_t column, uint16_t layer) const;
 
     private:
         uint16_t CS;    // cube size
-
-        void paintCube();
 
         color auxSpin;  // help the spin_ functions
         inline void spin_right(uint16_t x);
@@ -55,6 +65,8 @@ struct rubik_engine
         inline void spin_down(uint16_t y);
         inline void spin_clockwise(uint16_t z);
         inline void spin_anticlockwise(uint16_t z);
+
+        list<history> spin_history;
 
         vector<vector<vector<color>>> CUBE;
 };

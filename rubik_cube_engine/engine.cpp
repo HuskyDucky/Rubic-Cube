@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.22
 
-    Version : 20250625.0
+    Version : 20250628.0
 
     Rubik cube simulation engine
 
@@ -19,30 +19,46 @@
 
 rubik_engine::rubik_engine() :  CS(3),
                                 auxSpin(),
+                                spin_history(),
                                 CUBE(3, vector<vector<color>>(3, vector<color>(3))) {
     CS--;
-    paintCube();
+    reset();
 }
 
 rubik_engine::rubik_engine(uint16_t Cube_Size)  :   CS(Cube_Size),
                                                     auxSpin(),
+                                                    spin_history(),
                                                     CUBE(CS, vector<vector<color>>(CS, vector<color>(CS))) {
     if (CS >= 3)
     {
         CS--;
-        paintCube();
+        reset();
     } else
         recreate(CS);
 }
 
-void rubik_engine::paintCube()
+const list<history>& rubik_engine::get_Spin_history() const
 {
-    color* C = nullptr;
+    return spin_history;
+}
+
+uint16_t rubik_engine::size() const
+{
+    return CS + 1;
+}
+
+color rubik_engine::block(uint16_t line, uint16_t column, uint16_t layer) const { return CUBE[layer][line][column]; };
+
+void rubik_engine::reset()
+{
     for (uint16_t lyr = 0; lyr <= CS; lyr++)
         for (uint16_t lin = 0; lin <= CS; lin++)
             for (uint16_t col = 0; col <= CS; col++)
             {
-                C = &CUBE[lyr][lin][col];
+                color* C = &CUBE[lyr][lin][col];
+
+                memset((*C).in, ' ', 6 * sizeof(char)); // 6 colors (size of 'in')
+
                 if (lyr == 0)       (*C).in[position::Front] = color::For::Front;
                 else if (lyr == CS) (*C).in[position::Back] = color::For::Back;
 
@@ -52,6 +68,8 @@ void rubik_engine::paintCube()
                 if (lin == 0)       (*C).in[position::Top]  = color::For::Top;
                 else if (lin == CS) (*C).in[position::Bottom] = color::For::Bottom;
             }
+
+    spin_history.clear();
 }
 
 void rubik_engine::recreate(uint16_t Cube_Size)
@@ -69,5 +87,5 @@ void rubik_engine::recreate(uint16_t Cube_Size)
 
     CS--;
 
-    paintCube();
+    reset();
 }

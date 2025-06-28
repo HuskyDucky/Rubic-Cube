@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.22
 
-    Version : 20250623.3
+    Version : 20250628.0
 
     Rubik cube simulation engine
 
@@ -33,7 +33,7 @@ struct color {
             Bottom = 'O'
         };
 
-        char in[6] = {' ', ' ', ' ', ' ', ' ', ' '}; // the index is the colors' positions
+        char in[6]; // the index is the colors' positions (general.h -> enum position)
 
         void spinColor(to direction);
 

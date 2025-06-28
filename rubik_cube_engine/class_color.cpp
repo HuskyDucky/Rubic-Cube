@@ -54,7 +54,7 @@ void color::spinColor(to direction)
                                  in[position::Top]    = in[position::Right];
                                  in[position::Right]  = in[position::Bottom];
                                  in[position::Bottom] = in[position::Left];
-                                 in[position::Right]  = auxSpin;
+                                 in[position::Left]  = auxSpin;
                                  break;
     }
 }

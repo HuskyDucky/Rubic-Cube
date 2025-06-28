@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.24
 
-    Version : 20250625.0
+    Version : 20250628.0
 
     Rubik cube simulation engine
 
@@ -20,6 +20,7 @@
 void rubik_engine::spin(to direction, uint16_t xyz)
 {
     if (xyz <= CS)
+    {
         switch (direction)
         {
             case to::up        : spin_up(xyz); break;
@@ -29,6 +30,9 @@ void rubik_engine::spin(to direction, uint16_t xyz)
             case to::clockwise : spin_clockwise(xyz); break;
             default            : spin_anticlockwise(xyz);
         }
+
+        spin_history.push_back({direction, xyz});
+    }
 }
 
 inline void rubik_engine::spin_right(uint16_t x)

@@ -17,8 +17,6 @@
 					<Add option="-pedantic" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add directory="class_cube" />
-					<Add directory="Rubik_Cube_Extensions" />
 				</Compiler>
 				<Linker>
 					<Add option="-O3" />
@@ -39,9 +37,15 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Weffc++" />
+			<Add option="-pedantic" />
+			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Linker>
+			<Add option="-s" />
+		</Linker>
 		<Unit filename="lib/getch.cpp" />
 		<Unit filename="lib/getch.h" />
 		<Unit filename="main.cpp" />
@@ -52,7 +56,6 @@
 		<Unit filename="rubik_cube_engine/engine.cpp" />
 		<Unit filename="rubik_cube_engine/engine.h" />
 		<Unit filename="rubik_cube_engine/general.h" />
-		<Unit filename="rubik_cube_engine/protected.cpp" />
 		<Unit filename="rubik_cube_engine/spin.cpp" />
 		<Extensions />
 	</Project>

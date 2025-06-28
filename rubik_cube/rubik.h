@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.25
 
-    Version : 20250626.0
+    Version : 20250628.0
 
     Extends functionalities for Rubik cube simulation
 
@@ -20,6 +20,9 @@
 
 #include <iostream>
 #include <iomanip>
+#include <vector>
+#include <chrono>
+#include <random>
 
 #include "../rubik_cube_engine/engine.h"
 
@@ -35,11 +38,19 @@ struct rubik : public rubik_engine
     rubik();
     rubik(uint16_t cube_size);
 
-    void show();
+    void show_initial_positions();
 
-    term_color applyTermColor;  // default is colored_letters
+    void show();
+    void show(term_color only_for_this_time);
+
+    void randomize();
+    void randomize(uint16_t nofTimes);
+
+    void setTermColor(term_color op);
 
     private:
+        term_color applyTermColor;  // default is colored_letters
+
         const char* colorize (const char c) const;
 };
 

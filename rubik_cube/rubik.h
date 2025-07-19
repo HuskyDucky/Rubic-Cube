@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.25
 
-    Version : 20250628.0
+    Version : 20250718.0
 
     Extends functionalities for Rubik cube simulation
 
@@ -23,35 +23,35 @@
 #include <vector>
 #include <chrono>
 #include <random>
+#include <cmath>
 
 #include "../rubik_cube_engine/engine.h"
 
-enum term_color
-{
-    black_white,
-    colored_letters,
-    colored_positions
-};
+#include "../lib/coloring.h"
 
 struct rubik : public rubik_engine
 {
     rubik();
-    rubik(uint16_t cube_size);
+    rubik(uint8_t cube_size);
 
     void show_initial_positions();
 
-    void show();
-    void show(term_color only_for_this_time);
+    void show() const;
+    void show(const term_color only_for_this_time);
+
+    #ifdef DEBUG
+        void show_Scan_mem() const;
+    #endif
 
     void randomize();
-    void randomize(uint16_t nofTimes);
+    void randomize(uint8_t nofTimes);
 
     void setTermColor(term_color op);
 
     private:
         term_color applyTermColor;  // default is colored_letters
 
-        const char* colorize (const char c) const;
+        void show(bool showMainCube) const;
 };
 
 #endif // RUBIK_CUBE_H

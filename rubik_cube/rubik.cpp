@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.25
 
-    Version : 20250628.0
+    Version : 20250718.0
 
     Extends functionalities for Rubik cube simulation
 
@@ -18,23 +18,23 @@
 #include "rubik.h"
 
 rubik::rubik() : rubik_engine(), applyTermColor(colored_letters) {};
-rubik::rubik(uint16_t cube_size) : rubik_engine(cube_size), applyTermColor(colored_letters) {};
+rubik::rubik(uint8_t cube_size) : rubik_engine(cube_size), applyTermColor(colored_letters) {};
 
 void rubik::randomize()
 {
-    randomize(this->size() ^ this->size());
+    randomize(pow(this->size(), this->size()));
 }
 
-void rubik::randomize(uint16_t nofTimes)
+void rubik::randomize(uint8_t nofTimes)
 {
     if (nofTimes)
     {
         mt19937 rd(chrono::steady_clock::now().time_since_epoch().count());
-        uniform_int_distribution<uint16_t> dir_to_spin(0, 5); // size of enum 'to'
-        uniform_int_distribution<uint16_t> what_to_spin(0, this->size() - 1);
+        uniform_int_distribution<uint8_t> dir_to_spin(0, 5); // size of enum 'to'
+        uniform_int_distribution<uint8_t> what_to_spin(0, this->size() - 1);
 
-        for (uint16_t spinning = 0; spinning < nofTimes; spinning++)
-            spin(static_cast<to>(dir_to_spin(rd)), what_to_spin(rd));
+        for (uint8_t spinning = 0; spinning < nofTimes; spinning++)
+            spin(static_cast<colors::to>(dir_to_spin(rd)), what_to_spin(rd));
     }
 }
 
@@ -43,37 +43,31 @@ void rubik::setTermColor(term_color op)
     applyTermColor = op;
 }
 
-const char* rubik::colorize(const char c = ' ') const
+void rubik::show() const
 {
-    switch (applyTermColor)
-    {
-        case term_color::colored_letters:   switch (c) {
-                                                case 'W' : return "\x1B[97m"; break;
-                                                case 'Y' : return "\x1B[93m"; break;
-                                                case 'B' : return "\x1B[94m"; break;
-                                                case 'G' : return "\x1B[92m"; break;
-                                                case 'R' : return "\x1B[91m"; break;
-                                                case 'O' : return "\x1B[33m"; break;
-                                                default  : return "\033[0m";
-                                            }
-                                            break;
-        case term_color::colored_positions: switch (c) {
-                                                case 'W' : return "\033[3;107;97m"; break;
-                                                case 'Y' : return "\033[3;103;93m"; break;
-                                                case 'B' : return "\033[3;104;94m"; break;
-                                                case 'G' : return "\033[3;102;92m"; break;
-                                                case 'R' : return "\033[3;101;91m"; break;
-                                                case 'O' : return "\033[3;43;33m"; break;
-                                                default  : return "\033[0m";
-                                            }
-                                            break;
-        default : return "";
-    }
+    show(true);
 }
 
-void rubik::show()
+#ifdef DEBUG
+    void rubik::show_Scan_mem() const
+    {
+        show(false);
+    }
+#endif // DEBUG
+
+
+void rubik::show(bool showMainCube) const
 {
+#ifndef DEBUG
     if (this->size() <= 10)
+#else
+    uint16_t Sz = this->size();
+
+    if (!showMainCube)
+        Sz = this->DebugScan_size();
+
+    if (Sz <= 10)
+#endif
     {
         cout << "\rColors schematics: [123456] => ";
         for (uint16_t pos = 0; pos < 6; pos++)
@@ -117,10 +111,19 @@ void rubik::show()
                 for (uint16_t col = 0; col < CS; col++)
                 {
                     cout << '[';
-                    for (auto c = 0; c < 6; ++c)
+                    for (uint16_t c = 0; c < 6; ++c)
                     {
-                        char clr = (this->block(lin, col, lyr)).in[c];
-                        cout << colorize(clr) << clr << colorize();
+                        char clr = this->block(lin, col, lyr).in[c];
+
+                        #ifdef DEBUG
+                            if (!showMainCube)
+                                clr = this->blockDebugScan(lin, col, lyr).in[c];
+                        #endif
+
+                        if (clr == ' ')
+                            cout << ' ';
+                        else
+                            cout << coloring(clr, applyTermColor);
                     }
                     cout << ']';
                 }
@@ -137,12 +140,12 @@ void rubik::show()
         cerr << "\n\nSorry for the inconvenient,\nbut only cubes with maximum edges of 10 blocks can be shown.\n\n";
 }
 
-void rubik::show(term_color only_for_this_time)
+void rubik::show(const term_color only_for_this_time)
 {
     term_color curr_color = applyTermColor;
     setTermColor(only_for_this_time);
 
-    show();
+    show(true);
 
     setTermColor(curr_color);
 }
@@ -152,12 +155,12 @@ void rubik::show_initial_positions()
     term_color curr_color = applyTermColor;
     applyTermColor = term_color::colored_positions;
 
-    cout << " " << colorize(color::For::Top) << color::For::Top << colorize() << "   <- top"
-         << '\n' << colorize(color::For::Left) << color::For::Left
-                 << colorize(color::For::Front) << color::For::Front
-                 << colorize(color::For::Right) << color::For::Right
-                 << colorize(color::For::Back) << color::For::Back << colorize() << " <- left, front, right and back"
-         << "\n " << colorize(color::For::Bottom) << color::For::Bottom << colorize()   << "   <- bottom" << endl;
+    cout << " " << coloring(colors::For::Top, applyTermColor) << "   <- top"
+         << '\n' << coloring(colors::For::Left, applyTermColor)
+                 << coloring(colors::For::Front, applyTermColor)
+                 << coloring(colors::For::Right, applyTermColor)
+                 << coloring(colors::For::Back, applyTermColor) << " <- left, front, right and back"
+         << "\n " << coloring(colors::For::Bottom, applyTermColor) << "   <- bottom" << endl;
 
     applyTermColor = curr_color;
 }

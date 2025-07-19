@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.22
 
-    Version : 20250625.0
+    Version : 20250711.0
 
     Rubik cube simulation engine
 
@@ -17,29 +17,34 @@
 **/
 #include "class_color.h"
 
-void color::spinColor(to direction)
+colors::colors() {}
+colors::colors(const char* lcolors)
 {
+    memcpy(in, lcolors, sizeof(char) * 6);
+}
+
+
+void colors::spin(to direction)
+{
+    char auxSpin = in[position::Front];
+
     switch (direction) {
-        case to::up : auxSpin = in[position::Front];
-                      in[position::Front]  = in[position::Bottom];
+        case to::up : in[position::Front]  = in[position::Bottom];
                       in[position::Bottom] = in[position::Back];
                       in[position::Back]   = in[position::Top];
                       in[position::Top] = auxSpin;
                       break;
-        case to::down : auxSpin = in[position::Front];
-                        in[position::Front]  = in[position::Top];
+        case to::down : in[position::Front]  = in[position::Top];
                         in[position::Top]    = in[position::Back];
                         in[position::Back]   = in[position::Bottom];
                         in[position::Bottom] = auxSpin;
                         break;
-        case to::left : auxSpin = in[position::Front];
-                        in[position::Front] = in[position::Right];
+        case to::left : in[position::Front] = in[position::Right];
                         in[position::Right] = in[position::Back];
                         in[position::Back]  = in[position::Left];
                         in[position::Left]  = auxSpin;
                         break;
-        case to::right : auxSpin = in[position::Front];
-                         in[position::Front] = in[position::Left];
+        case to::right : in[position::Front] = in[position::Left];
                          in[position::Left]  = in[position::Back];
                          in[position::Back]  = in[position::Right];
                          in[position::Right] = auxSpin;

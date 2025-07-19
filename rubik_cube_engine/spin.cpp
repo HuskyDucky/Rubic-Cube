@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.24
 
-    Version : 20250628.0
+    Version : 20250628.3
 
     Rubik cube simulation engine
 
@@ -17,92 +17,92 @@
 **/
 #include "engine.h"
 
-void rubik_engine::spin(to direction, uint16_t xyz)
+void rubik_engine::spin(const colors::to direction, const uint8_t xyz)
 {
     if (xyz <= CS)
     {
         switch (direction)
         {
-            case to::up        : spin_up(xyz); break;
-            case to::left      : spin_left(xyz); break;
-            case to::down      : spin_down(xyz); break;
-            case to::right     : spin_right(xyz); break;
-            case to::clockwise : spin_clockwise(xyz); break;
-            default            : spin_anticlockwise(xyz);
+            case colors::to::up        : spin_up(xyz); break;
+            case colors::to::left      : spin_left(xyz); break;
+            case colors::to::down      : spin_down(xyz); break;
+            case colors::to::right     : spin_right(xyz); break;
+            case colors::to::clockwise : spin_clockwise(xyz); break;
+            default                    : spin_anticlockwise(xyz);
         }
 
         spin_history.push_back({direction, xyz});
     }
 }
 
-inline void rubik_engine::spin_right(uint16_t x)
+inline void rubik_engine::spin_right(const uint8_t x)
 {
-    for (uint16_t idx = 0; idx != CS; idx++)
+    for (uint8_t idx = 0; idx != CS; idx++)
     {
-        auxSpin             = CUBE[0][x][idx];      auxSpin.spinColor(to::right);
-        CUBE[0][x][idx]     = CUBE[CS-idx][x][0];   CUBE[0][x][idx].spinColor(to::right);
-        CUBE[CS-idx][x][0]  = CUBE[CS][x][CS-idx];  CUBE[CS-idx][x][0].spinColor(to::right);
-        CUBE[CS][x][CS-idx] = CUBE[idx][x][CS];     CUBE[CS][x][CS-idx].spinColor(to::right);
+        auxSpin             = CUBE[0][x][idx];      auxSpin.spin(colors::to::right);
+        CUBE[0][x][idx]     = CUBE[CS-idx][x][0];   CUBE[0][x][idx].spin(colors::to::right);
+        CUBE[CS-idx][x][0]  = CUBE[CS][x][CS-idx];  CUBE[CS-idx][x][0].spin(colors::to::right);
+        CUBE[CS][x][CS-idx] = CUBE[idx][x][CS];     CUBE[CS][x][CS-idx].spin(colors::to::right);
         CUBE[idx][x][CS]    = auxSpin;
     }
 }
 
-inline void rubik_engine::spin_down(uint16_t y)
+inline void rubik_engine::spin_down(const uint8_t y)
 {
-    for (uint16_t idx = 0; idx != CS; idx++)
+    for (uint8_t idx = 0; idx != CS; idx++)
     {
-        auxSpin             = CUBE[0][idx][y];      auxSpin.spinColor(to::down);
-        CUBE[0][idx][y]     = CUBE[CS-idx][0][y];   CUBE[0][idx][y].spinColor(to::down);
-        CUBE[CS-idx][0][y]  = CUBE[CS][CS-idx][y];  CUBE[CS-idx][0][y].spinColor(to::down);
-        CUBE[CS][CS-idx][y] = CUBE[idx][CS][y];     CUBE[CS][CS-idx][y].spinColor(to::down);
+        auxSpin             = CUBE[0][idx][y];      auxSpin.spin(colors::to::down);
+        CUBE[0][idx][y]     = CUBE[CS-idx][0][y];   CUBE[0][idx][y].spin(colors::to::down);
+        CUBE[CS-idx][0][y]  = CUBE[CS][CS-idx][y];  CUBE[CS-idx][0][y].spin(colors::to::down);
+        CUBE[CS][CS-idx][y] = CUBE[idx][CS][y];     CUBE[CS][CS-idx][y].spin(colors::to::down);
         CUBE[idx][CS][y]    = auxSpin;
     }
 }
 
-inline void rubik_engine::spin_clockwise(uint16_t z)
+inline void rubik_engine::spin_clockwise(const uint8_t z)
 {
-    for (uint16_t idx = 0; idx != CS; idx++)
+    for (uint8_t idx = 0; idx != CS; idx++)
     {
-        auxSpin             = CUBE[z][0][idx];      auxSpin.spinColor(to::clockwise);
-        CUBE[z][0][idx]     = CUBE[z][CS-idx][0];   CUBE[z][0][idx].spinColor(to::clockwise);
-        CUBE[z][CS-idx][0]  = CUBE[z][CS][CS-idx];  CUBE[z][CS-idx][0].spinColor(to::clockwise);
-        CUBE[z][CS][CS-idx] = CUBE[z][idx][CS];     CUBE[z][CS][CS-idx].spinColor(to::clockwise);
+        auxSpin             = CUBE[z][0][idx];      auxSpin.spin(colors::to::clockwise);
+        CUBE[z][0][idx]     = CUBE[z][CS-idx][0];   CUBE[z][0][idx].spin(colors::to::clockwise);
+        CUBE[z][CS-idx][0]  = CUBE[z][CS][CS-idx];  CUBE[z][CS-idx][0].spin(colors::to::clockwise);
+        CUBE[z][CS][CS-idx] = CUBE[z][idx][CS];     CUBE[z][CS][CS-idx].spin(colors::to::clockwise);
         CUBE[z][idx][CS]    = auxSpin;
     }
 }
 
-inline void rubik_engine::spin_left(uint16_t x)
+inline void rubik_engine::spin_left(const uint8_t x)
 {
-    for (uint16_t idx = 0; idx != CS; idx++)
+    for (uint8_t idx = 0; idx != CS; idx++)
     {
-        auxSpin             = CUBE[0][x][idx];      auxSpin.spinColor(to::left);
-        CUBE[0][x][idx]     = CUBE[idx][x][CS];     CUBE[0][x][idx].spinColor(to::left);
-        CUBE[idx][x][CS]    = CUBE[CS][x][CS-idx];  CUBE[idx][x][CS].spinColor(to::left);
-        CUBE[CS][x][CS-idx] = CUBE[CS-idx][x][0];   CUBE[CS][x][CS-idx].spinColor(to::left);
+        auxSpin             = CUBE[0][x][idx];      auxSpin.spin(colors::to::left);
+        CUBE[0][x][idx]     = CUBE[idx][x][CS];     CUBE[0][x][idx].spin(colors::to::left);
+        CUBE[idx][x][CS]    = CUBE[CS][x][CS-idx];  CUBE[idx][x][CS].spin(colors::to::left);
+        CUBE[CS][x][CS-idx] = CUBE[CS-idx][x][0];   CUBE[CS][x][CS-idx].spin(colors::to::left);
         CUBE[CS-idx][x][0]  = auxSpin;
     }
 }
 
-inline void rubik_engine::spin_up(uint16_t y)
+inline void rubik_engine::spin_up(const uint8_t y)
 {
-    for (uint16_t idx = 0; idx != CS; idx++)
+    for (uint8_t idx = 0; idx != CS; idx++)
     {
-        auxSpin             = CUBE[0][idx][y];      auxSpin.spinColor(to::up);
-        CUBE[0][idx][y]     = CUBE[idx][CS][y];     CUBE[0][idx][y].spinColor(to::up);
-        CUBE[idx][CS][y]    = CUBE[CS][CS-idx][y];  CUBE[idx][CS][y].spinColor(to::up);
-        CUBE[CS][CS-idx][y] = CUBE[CS-idx][0][y];   CUBE[CS][CS-idx][y].spinColor(to::up);
+        auxSpin             = CUBE[0][idx][y];      auxSpin.spin(colors::to::up);
+        CUBE[0][idx][y]     = CUBE[idx][CS][y];     CUBE[0][idx][y].spin(colors::to::up);
+        CUBE[idx][CS][y]    = CUBE[CS][CS-idx][y];  CUBE[idx][CS][y].spin(colors::to::up);
+        CUBE[CS][CS-idx][y] = CUBE[CS-idx][0][y];   CUBE[CS][CS-idx][y].spin(colors::to::up);
         CUBE[CS-idx][0][y]  = auxSpin;
     }
 }
 
-inline void rubik_engine::spin_anticlockwise(uint16_t z)
+inline void rubik_engine::spin_anticlockwise(const uint8_t z)
 {
-    for (uint16_t idx = 0; idx != CS; idx++)
+    for (uint8_t idx = 0; idx != CS; idx++)
     {
-        auxSpin             = CUBE[z][0][idx];      auxSpin.spinColor(to::anticlockwise);
-        CUBE[z][0][idx]     = CUBE[z][idx][CS];     CUBE[z][0][idx].spinColor(to::anticlockwise);
-        CUBE[z][idx][CS]    = CUBE[z][CS][CS-idx];  CUBE[z][idx][CS].spinColor(to::anticlockwise);
-        CUBE[z][CS][CS-idx] = CUBE[z][CS-idx][0];   CUBE[z][CS][CS-idx].spinColor(to::anticlockwise);
+        auxSpin             = CUBE[z][0][idx];      auxSpin.spin(colors::to::anticlockwise);
+        CUBE[z][0][idx]     = CUBE[z][idx][CS];     CUBE[z][0][idx].spin(colors::to::anticlockwise);
+        CUBE[z][idx][CS]    = CUBE[z][CS][CS-idx];  CUBE[z][idx][CS].spin(colors::to::anticlockwise);
+        CUBE[z][CS][CS-idx] = CUBE[z][CS-idx][0];   CUBE[z][CS][CS-idx].spin(colors::to::anticlockwise);
         CUBE[z][CS-idx][0]  = auxSpin;
     }
 }

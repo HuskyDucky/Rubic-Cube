@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.22
 
-    Version : 20250628.0
+    Version : 20250711.0
 
     Rubik cube simulation engine
 
@@ -19,9 +19,11 @@
 #define CUBECOLOR_H
 
 #include <cinttypes>
+#include <cstring>
+
 #include "general.h"
 
-struct color {
+struct colors {
         enum For : char
         {
             None   = ' ',
@@ -33,12 +35,22 @@ struct color {
             Bottom = 'O'
         };
 
-        char in[6]; // the index is the colors' positions (general.h -> enum position)
+        enum to : uint8_t
+        {
+            up,
+            down,
+            left,
+            right,
+            clockwise,
+            anticlockwise
+        };
 
-        void spinColor(to direction);
+        colors();
+        colors(const char* lcolors);
 
-    private:
-        char auxSpin = ' ';
+        char in[6] = {' ', ' ', ' ', ' ', ' ', ' '}; // the index is the colors' positions (general.h -> enum position)
+
+        void spin(to direction);
 };
 
 #endif // CUBECOLOR_H

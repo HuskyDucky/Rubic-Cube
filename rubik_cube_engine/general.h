@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.22
 
-    Version : 20250626.0
+    Version : 20250703.0
 
     Rubik cube simulation engine
 
@@ -17,16 +17,6 @@
 **/
 #ifndef CUBEGENERAL_H
 #define CUBEGENERAL_H
-
-enum to
-{
-    up,
-    down,
-    left,
-    right,
-    clockwise,
-    anticlockwise
-};
 
 enum position
 {

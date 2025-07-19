@@ -1,3 +1,3 @@
-# Rubic-Cube
+# Rubik-Cube
 
 still under development and testing

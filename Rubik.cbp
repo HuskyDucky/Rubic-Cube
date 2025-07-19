@@ -12,14 +12,13 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-O3" />
+					<Add option="-O2" />
 					<Add option="-Weffc++" />
 					<Add option="-pedantic" />
 					<Add option="-Wextra" />
-					<Add option="-Wall" />
 				</Compiler>
 				<Linker>
-					<Add option="-O3" />
+					<Add option="-O2" />
 					<Add option="-s" />
 				</Linker>
 			</Target>
@@ -29,6 +28,10 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Weffc++" />
+					<Add option="-pedantic" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-DDEBUG" />
 					<Add directory="class_cube" />
@@ -37,15 +40,37 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Weffc++" />
-			<Add option="-pedantic" />
-			<Add option="-Wextra" />
-			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Linker>
 			<Add option="-s" />
 		</Linker>
+		<Unit filename="debug/_debug.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="debug/change_colors.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="debug/debug.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="debug/randomizing.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="debug/resetting.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="debug/scanning.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="debug/show_initial_positions.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="debug/turning_around.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="lib/coloring.cpp" />
+		<Unit filename="lib/coloring.h" />
 		<Unit filename="lib/getch.cpp" />
 		<Unit filename="lib/getch.h" />
 		<Unit filename="main.cpp" />
@@ -56,6 +81,7 @@
 		<Unit filename="rubik_cube_engine/engine.cpp" />
 		<Unit filename="rubik_cube_engine/engine.h" />
 		<Unit filename="rubik_cube_engine/general.h" />
+		<Unit filename="rubik_cube_engine/scan.cpp" />
 		<Unit filename="rubik_cube_engine/spin.cpp" />
 		<Extensions />
 	</Project>

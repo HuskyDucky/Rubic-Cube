@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.22
 
-    Version : 20250719.0
+    Version : 20250723.0
 
     Rubik cube simulation engine
 
@@ -49,24 +49,48 @@ scan_status rubik_engine::scan(const position face_scanned, const string& face_c
                         if (S.in[c] != ' ')
                             S.in[c] &= ~' ';   // uppercase
 
-                    for (uint16_t c = 0; c < 5; c++)
-                        for (uint16_t r = c + 1; r < 6; r++)
-                            if (S.in[c] != ' ')
-                            {
-                                if (S.in[c] == S.in[r])
-                                    return REPEATED_COLOR_IN_BLK;
+//                    for (uint16_t c = 0; c < 5; c++)
+//                        for (uint16_t r = c + 1; r < 6; r++)
+//                            if (S.in[c] != ' ')
+//                            {
+//                                if (S.in[c] == S.in[r])
+//                                    return REPEATED_COLOR_IN_BLK;
 
-                                if ((S.in[c] == 'W' && S.in[r] == 'Y') ||
-                                    (S.in[c] == 'Y' && S.in[r] == 'W') ||
-                                    (S.in[c] == 'B' && S.in[r] == 'G') ||
-                                    (S.in[c] == 'G' && S.in[r] == 'B') ||
-                                    (S.in[c] == 'R' && S.in[r] == 'O') ||
-                                    (S.in[c] == 'O' && S.in[r] == 'R'))
-                                    return BLK_WITH_INCOMPATIBLE_COLORS;
+//                                if ((S.in[c] == 'W' && S.in[r] == 'Y') ||
+//                                    (S.in[c] == 'Y' && S.in[r] == 'W') ||
+//                                    (S.in[c] == 'B' && S.in[r] == 'G') ||
+//                                    (S.in[c] == 'G' && S.in[r] == 'B') ||
+//                                    (S.in[c] == 'R' && S.in[r] == 'O') ||
+//                                    (S.in[c] == 'O' && S.in[r] == 'R'))
+//                                    return BLK_WITH_INCOMPATIBLE_COLORS;
+//                            }
+
+                    auto has_invalid_color_position = [&]() -> bool {
+                        auto prev = chk_blk.before_begin();
+                        for (auto C = chk_blk.begin(); C != chk_blk.end(); ++C)
+                        {
+                            for (uint8_t tUp = 0; tUp < 4; tUp++) {
+                                for (uint8_t tRight = 0; tRight < 4; tRight++) {
+                                    for (uint8_t tClockWise = 0; tClockWise < 4; tClockWise++) {
+                                        if (memcmp(S.in, C->in, 6 * sizeof(char)) == 0)
+                                        {
+                                            chk_blk.erase_after(prev);
+                                            return false;
+                                        }
+                                        C->spin(colors::to::clockwise);
+                                    }
+                                    C->spin(colors::to::right);
+                                }
+                                C->spin(colors::to::up);
                             }
+                            prev = C;
+                        }
 
-                    if (scan_has_invalid_color_position(S, chk_blk))
-                        return BLK_INCONSISTENT_COLOR_POS;
+                        return true;
+                    };
+
+                    if (has_invalid_color_position())
+                        return CUBE_MALFORMED;
                 }
 
     if (chk_blk.empty())
@@ -88,6 +112,36 @@ scan_status rubik_engine::scan(const position face_scanned, const string& face_c
     }
 
     return UNDEFINED_ERROR;
+}
+
+inline void rubik_engine::scan_add_face_scanned_to_Sube(const position face_scanned, const string& face_colors)
+{
+    switch (face_scanned) {
+        case position::Left   : for (uint8_t lyr = 0; lyr <= CS; lyr++)
+                                    for (uint8_t lin = 0; lin <= CS; lin++)
+                                        Sube[lyr][lin][0].in[position::Left] = face_colors[CS - lyr + lin * CUBE.size()];
+                                break;
+        case position::Top    : for (uint8_t lyr = 0; lyr <= CS; lyr++)
+                                    for (uint8_t col = 0; col <= CS; col++)
+                                        Sube[lyr][0][col].in[position::Top] = face_colors[col + (CS - lyr) * CUBE.size()];
+                                break;
+        case position::Front  : for (uint8_t lin = 0; lin <= CS; lin++)
+                                    for (uint8_t col = 0; col <= CS; col++)
+                                        Sube[0][lin][col].in[position::Front] = face_colors[col + lin * CUBE.size()];
+                                break;
+        case position::Back   : for (uint8_t lin = 0; lin <= CS; lin++)
+                                    for (uint8_t col = 0; col <= CS; col++)
+                                        Sube[CS][lin][col].in[position::Back] = face_colors[col + (CS - lin) * CUBE.size()];
+                                break;
+        case position::Bottom : for (uint8_t lyr = 0; lyr <= CS; lyr++)
+                                    for (uint8_t col = 0; col <= CS; col++)
+                                        Sube[lyr][CS][col].in[position::Bottom] = face_colors[col + lyr * CUBE.size()];
+                                break;
+        case position::Right  : for (uint8_t lyr = 0; lyr <= CS; lyr++)               // ERROR! NEED TO BE FIXED
+                                    for (uint8_t lin = 0; lin <= CS; lin++)
+                                        Sube[lyr][lin][CS].in[position::Right] = face_colors[lyr + lin * CUBE.size()];
+                                break;
+    }
 }
 
 //inline bool rubik_engine::scan_is_qt_of_colors_inconsistent(colors& S, const uint8_t lyr, const uint8_t lin, const uint8_t col)
@@ -117,57 +171,27 @@ scan_status rubik_engine::scan(const position face_scanned, const string& face_c
 //    return false;
 //}
 
-inline void rubik_engine::scan_add_face_scanned_to_Sube(const position face_scanned, const string& face_colors)
-{
-    switch (face_scanned) {
-        case position::Left   : for (uint8_t lin = 0; lin <= CS; lin++)
-                                    for (uint8_t lyr = 0; lyr <= CS; lyr++)
-                                        Sube[lyr][lin][0].in[position::Left] = face_colors[lyr + lin * CUBE.size()];
-                                break;
-        case position::Top    : for (uint8_t lyr = CS; lyr != std::numeric_limits<uint8_t>::max(); lyr--)
-                                    for (uint8_t col = 0; col <= CS; col++)
-                                        Sube[lyr][0][col].in[position::Top] = face_colors[col + lyr * CUBE.size()];
-                                break;
-        case position::Front  : for (uint8_t lin = 0; lin <= CS; lin++)
-                                    for (uint8_t col = 0; col <= CS; col++)
-                                        Sube[0][lin][col].in[position::Front] = face_colors[col + lin * CUBE.size()];
-                                break;
-        case position::Back   : for (uint8_t lin = CS; lin != std::numeric_limits<uint8_t>::max(); lin--)
-                                    for (uint8_t col = 0; col <= CS; col++)
-                                        Sube[CS][lin][col].in[position::Back] = face_colors[col + lin * CUBE.size()];
-                                break;
-        case position::Bottom : for (uint8_t lyr = 0; lyr <= CS; lyr++)
-                                    for (uint8_t col = 0; col <= CS; col++)
-                                        Sube[lyr][CS][col].in[position::Bottom] = face_colors[col + lyr * CUBE.size()];
-                                break;
-        case position::Right  : for (uint8_t lyr = CS; lyr != std::numeric_limits<uint8_t>::max(); lyr--)
-                                    for (uint8_t lin = 0; lin <= CS; lin++)
-                                        Sube[lyr][lin][CS].in[position::Right] = face_colors[lin + lyr * CUBE.size()];
-                                break;
-    }
-}
-
-inline bool rubik_engine::scan_has_invalid_color_position(const colors& S, forward_list<colors>& chk_blk)
-{
-    auto prev = chk_blk.before_begin();
-    for (auto C = chk_blk.begin(); C != chk_blk.end(); ++C)
-    {
-        for (uint8_t tUp = 0; tUp < 4; tUp++) {
-            for (uint8_t tRight = 0; tRight < 4; tRight++) {
-                for (uint8_t tClockWise = 0; tClockWise < 4; tClockWise++) {
-                    if (memcmp(S.in, C->in, 6 * sizeof(char)) == 0)
-                    {
-                        chk_blk.erase_after(prev);
-                        return false;
-                    }
-                    C->spin(colors::to::clockwise);
-                }
-                C->spin(colors::to::right);
-            }
-            C->spin(colors::to::up);
-        }
-        prev = C;
-    }
-
-    return true;
-}
+//inline bool rubik_engine::scan_has_invalid_color_position(const colors& S, forward_list<colors>& chk_blk)
+//{
+//    auto prev = chk_blk.before_begin();
+//    for (auto C = chk_blk.begin(); C != chk_blk.end(); ++C)
+//    {
+//        for (uint8_t tUp = 0; tUp < 4; tUp++) {
+//            for (uint8_t tRight = 0; tRight < 4; tRight++) {
+//                for (uint8_t tClockWise = 0; tClockWise < 4; tClockWise++) {
+//                    if (memcmp(S.in, C->in, 6 * sizeof(char)) == 0)
+//                    {
+//                        chk_blk.erase_after(prev);
+//                        return false;
+//                    }
+//                    C->spin(colors::to::clockwise);
+//                }
+//                C->spin(colors::to::right);
+//            }
+//            C->spin(colors::to::up);
+//        }
+//        prev = C;
+//    }
+//
+//    return true;
+//}

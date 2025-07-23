@@ -3,7 +3,7 @@
     Author  : Menashe Rosemberg
     Created : 2025.06.22
 
-    Version : 20250718.0
+    Version : 20250723.0
 
     Rubik cube simulation engine
 
@@ -24,7 +24,6 @@
 
 #include <cinttypes>
 #include <cstring>
-#include <limits>
 #include <cmath>
 
 #include <vector>
@@ -49,13 +48,14 @@ struct history
 enum scan_status : uint16_t {
     FACE_SCANNED,
     INCONSISTENT_FACE_SIZE,
-    BLK_INCONSISTENT_QT_OF_COLORS,
     UNEXPECTED_COLOR_FOUND,
-    REPEATED_COLOR_IN_BLK,
-    BLK_WITH_INCOMPATIBLE_COLORS,
-    BLK_INCONSISTENT_COLOR_POS,
+    CUBE_MALFORMED,
+    //BLK_INCONSISTENT_QT_OF_COLORS,
+
+    //REPEATED_COLOR_IN_BLK,
+    //BLK_WITH_INCOMPATIBLE_COLORS,
     UNDEFINED_ERROR,
-    CUBE_FORMED_AND_UPDATED = 255
+    CUBE_FORMED_AND_UPDATED
 };
 
 struct rubik_engine
@@ -103,7 +103,7 @@ struct rubik_engine
 
         //inline bool scan_is_qt_of_colors_inconsistent(colors& S, const uint8_t lyr, const uint8_t lin, const uint8_t col);
         inline void scan_add_face_scanned_to_Sube(const position face_scanned, const string& face_colors);
-        inline bool scan_has_invalid_color_position(const colors& S, forward_list<colors>& chk_blk);
+        //inline bool scan_has_invalid_color_position(const colors& S, forward_list<colors>& chk_blk);
 
         CubeT Sube; // scanned cube
 };
